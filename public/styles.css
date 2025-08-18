@@ -47,11 +47,13 @@ body {
   cursor: pointer;
 }
 
+
 .results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  padding: 20px;
+    display: flex;
+    flex-direction: column; /* columna, un video por fila */  
+    gap: 20px;
+    padding: 20px;
+    margin-left: 15%; /* margen izquierdo */
 }
 
 .video-card {
@@ -60,16 +62,11 @@ body {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
+  display: flex;
 }
 
 .video-card:hover {
   transform: scale(1.02);
-}
-
-.thumbnail {
-  width: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
 }
 
 .video-info {

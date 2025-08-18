@@ -17,11 +17,13 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
       const card = document.createElement("div");
       card.className = "video-card";
       card.innerHTML = `
-        <img class="thumbnail" src="${video.thumbnails[0].url}" alt="${video.title}">
+        <div class="video-thumbnail">
+            <img class="thumbnail" src="${video.thumbnails[0].url}" alt="${video.title}">
+        </div>
         <div class="video-info">
           <div class="video-title">${video.title}</div>
           <div class="video-channel">${video.channel || "Canal desconocido"}</div>
-          <div class="video-meta">${video.duration || "?"} • ${video.views || "?"} vistas</div>
+          <div class="video-meta">${video.duration || "?"} • ${video.view_count || "?"} vistas</div>
         </div>
       `;
       card.addEventListener("click", () => {
