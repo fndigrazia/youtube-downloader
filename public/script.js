@@ -1,3 +1,8 @@
+const closeOverlay = document.getElementById("closeOverlay");
+const overlay = document.getElementById("videoOverlay");
+
+
+
 document.getElementById("searchForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = document.getElementById("searchInput").value.trim();
@@ -14,22 +19,46 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     resultsDiv.innerHTML = "";
 
     data.forEach(video => {
-      const card = document.createElement("div");
-      card.className = "video-card";
-      card.innerHTML = `
-        <div class="video-thumbnail">
-            <img class="thumbnail" src="${video.thumbnails[0].url}" alt="${video.title}">
-        </div>
-        <div class="video-info">
-          <div class="video-title">${video.title}</div>
-          <div class="video-channel">${video.channel || "Canal desconocido"}</div>
-          <div class="video-meta">${video.duration || "?"} • ${video.view_count || "?"} vistas</div>
-        </div>
-      `;
-      card.addEventListener("click", () => {
-        window.open(`https://www.youtube.com/watch?v=${video.id}`, "_blank");
-      });
-      resultsDiv.appendChild(card);
+        const card = document.createElement('div');
+        card.className = 'video-card';
+      
+        const div_img = document.createElement('div');
+        div_img.className = 'card-img';
+        
+        const img = document.createElement('img');
+        img.src = video.thumbnails[0].url;
+        div_img.appendChild(img);
+        
+
+        const content = document.createElement('div');
+        content.className = 'video-info';
+
+        const title = document.createElement('h3');
+        title.textContent = video.title;
+
+        const info = document.createElement('p');
+        info.textContent = `${video.channel} • ${video.view_count} • ${video.duration}`;
+
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = 'Download';
+        downloadBtn.onclick = () => {
+            window.location.href = `/download?id=${video.id}`;
+        };
+
+        content.appendChild(title);
+        content.appendChild(info);
+        content.appendChild(downloadBtn);
+
+        card.appendChild(div_img);
+        card.appendChild(content);
+        
+        // click en card = abrir overlay
+        card.addEventListener("click", () => {
+          videoPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+          overlay.classList.remove("hidden");
+        });
+        resultsDiv.appendChild(card);
     });
 
     if (data.length === 0) {
@@ -40,4 +69,10 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     resultsDiv.innerHTML = "<p>Error al buscar videos.</p>";
     console.error(err);
   }
+});
+
+// cerrar overlay
+closeOverlay.addEventListener("click", () => {
+  videoPlayer.src = "";
+  overlay.classList.add("hidden");
 });
